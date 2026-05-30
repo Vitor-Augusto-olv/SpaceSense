@@ -1,8 +1,26 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter, useSegments } from 'expo-router';
+import { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../src/theme/colors';
+import { AuthProvider, useAuth } from '../src/context/AuthContext';
 
-export default function Layout() {
+function RootLayout() {
+  const { usuario, carregando } = useAuth();
+  const router = useRouter();
+  const segments = useSegments();
+
+  useEffect(() => {
+    if (carregando) return;
+    const naTelaDeLogin = segments[0] === 'login';
+    if (!usuario && !naTelaDeLogin) {
+      router.replace('/login');
+    } else if (usuario && naTelaDeLogin) {
+      router.replace('/');
+    }
+  }, [usuario, carregando, segments]);
+
+  if (carregando) return null;
+
   return (
     <Tabs
       screenOptions={{
@@ -56,6 +74,18 @@ export default function Layout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="information-circle-outline" color={color} size={size} />,
         }}
       />
+      <Tabs.Screen
+        name="login"
+        options={{ href: null }}
+      />
     </Tabs>
+  );
+}
+
+export default function Layout() {
+  return (
+    <AuthProvider>
+      <RootLayout />
+    </AuthProvider>
   );
 }
