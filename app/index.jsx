@@ -1,9 +1,11 @@
-import { View, Text, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity, Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../src/theme/colors';
 import { getDetritos, getAlertas } from '../src/services/api';
 import { useRouter } from 'expo-router';
+
+const { width } = Dimensions.get('window');
 
 export default function Dashboard() {
   const [detritos, setDetritos] = useState([]);
@@ -24,6 +26,8 @@ export default function Dashboard() {
 
   const totalRiscoAlto = detritos.filter(d => d.risco === 'ALTO').length;
   const totalRiscoMedio = detritos.filter(d => d.risco === 'MEDIO').length;
+  const totalRiscoBaixo = detritos.filter(d => d.risco === 'BAIXO').length;
+  const total = detritos.length || 1;
   const ultimoAlerta = alertas[0];
 
   const nivelColor = (nivel) => ({
@@ -32,9 +36,14 @@ export default function Dashboard() {
     SAFE: colors.success,
   }[nivel] || colors.primary);
 
+  const barras = [
+    { label: 'Alto', valor: totalRiscoAlto, cor: colors.danger },
+    { label: 'Médio', valor: totalRiscoMedio, cor: colors.warning },
+    { label: 'Baixo', valor: totalRiscoBaixo, cor: colors.success },
+  ];
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
       <View style={styles.header}>
         <View>
           <Text style={styles.titulo}>Space Sense</Text>
@@ -47,7 +56,6 @@ export default function Dashboard() {
         <ActivityIndicator color={colors.primary} style={{ marginTop: 60 }} size="large" />
       ) : (
         <>
-          {/* Grid de cards */}
           <View style={styles.grid}>
             <View style={[styles.gridCard, { borderTopColor: colors.primary }]}>
               <Ionicons name="planet-outline" size={22} color={colors.primary} />
@@ -71,7 +79,26 @@ export default function Dashboard() {
             </View>
           </View>
 
-          {/* Último alerta */}
+          {/* Gráfico manual de barras */}
+          <View style={styles.secao}>
+            <Text style={styles.secaoTitulo}>DISTRIBUIÇÃO DE RISCO</Text>
+            <View style={styles.chartCard}>
+              {barras.map((b, i) => (
+                <View key={i} style={styles.barraRow}>
+                  <Text style={styles.barraLabel}>{b.label}</Text>
+                  <View style={styles.barraTrack}>
+                    <View style={[styles.barraFill, {
+                      width: `${(b.valor / total) * 100}%`,
+                      backgroundColor: b.cor,
+                      minWidth: b.valor > 0 ? 8 : 0,
+                    }]} />
+                  </View>
+                  <Text style={[styles.barraValor, { color: b.cor }]}>{b.valor}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
           {ultimoAlerta && (
             <View style={styles.secao}>
               <Text style={styles.secaoTitulo}>ÚLTIMO ALERTA</Text>
@@ -91,7 +118,6 @@ export default function Dashboard() {
             </View>
           )}
 
-          {/* Detritos recentes */}
           <View style={styles.secao}>
             <View style={styles.secaoHeader}>
               <Text style={styles.secaoTitulo}>DETRITOS RECENTES</Text>
@@ -137,12 +163,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 6,
   },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-    marginBottom: 24,
-  },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginBottom: 24 },
   gridCard: {
     width: '47.5%',
     backgroundColor: colors.card,
@@ -154,19 +175,31 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     gap: 6,
   },
-  gridValor: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.textPrimary,
-  },
-  gridLabel: {
-    fontSize: 12,
-    color: colors.textMuted,
-  },
+  gridValor: { fontSize: 28, fontWeight: 'bold', color: colors.textPrimary },
+  gridLabel: { fontSize: 12, color: colors.textMuted },
   secao: { marginBottom: 24 },
   secaoHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
   secaoTitulo: { fontSize: 11, color: colors.textMuted, letterSpacing: 1, marginBottom: 10, textTransform: 'uppercase' },
   verTodos: { fontSize: 12, color: colors.primary },
+  chartCard: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 16,
+    gap: 14,
+  },
+  barraRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  barraLabel: { width: 40, fontSize: 12, color: colors.textSecondary },
+  barraTrack: {
+    flex: 1,
+    height: 10,
+    backgroundColor: colors.border,
+    borderRadius: 99,
+    overflow: 'hidden',
+  },
+  barraFill: { height: '100%', borderRadius: 99 },
+  barraValor: { width: 20, fontSize: 12, fontWeight: 'bold', textAlign: 'right' },
   alertaCard: {
     backgroundColor: colors.card,
     borderRadius: 12,
