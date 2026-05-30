@@ -3,9 +3,9 @@ import { colors } from '../src/theme/colors';
 
 export default function Sobre() {
   const integrantes = [
-    { nome: 'Vitor', rm: 'RM00001', turma: 'ADS' },
-    { nome: 'Integrante 2', rm: 'RM00002', turma: 'ADS' },
-    { nome: 'Integrante 3', rm: 'RM00003', turma: 'ADS' },
+    { nome: 'Vitor', rm: 'RM564227', turma: '2TDSPJ' },
+    { nome: 'André', rm: 'RM564662', turma: '2TDSPJ' },
+    { nome: 'Gabriel', rm: 'RM563298', turma: '2TDSPJ' },
   ];
 
   return (

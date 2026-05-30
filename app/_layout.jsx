@@ -68,16 +68,14 @@ function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="sobre"
+        name="perfil"
         options={{
-          title: 'Sobre',
-          tabBarIcon: ({ color, size }) => <Ionicons name="information-circle-outline" color={color} size={size} />,
+          title: 'Perfil',
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
         }}
       />
-      <Tabs.Screen
-        name="login"
-        options={{ href: null }}
-      />
+      <Tabs.Screen name="sobre" options={{ href: null }} />
+      <Tabs.Screen name="login" options={{ href: null }} />
     </Tabs>
   );
 }
