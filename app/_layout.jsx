@@ -61,10 +61,10 @@ function RootLayout() {
         }}
       />
       <Tabs.Screen
-        name="configuracoes"
+        name="spacetrack"
         options={{
-          title: 'Config',
-          tabBarIcon: ({ color, size }) => <Ionicons name="settings-outline" color={color} size={size} />,
+          title: 'Space-Track',
+          tabBarIcon: ({ color, size }) => <Ionicons name="globe-outline" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
@@ -74,6 +74,7 @@ function RootLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
         }}
       />
+      <Tabs.Screen name="configuracoes" options={{ href: null }} />
       <Tabs.Screen name="sobre" options={{ href: null }} />
       <Tabs.Screen name="login" options={{ href: null }} />
     </Tabs>
