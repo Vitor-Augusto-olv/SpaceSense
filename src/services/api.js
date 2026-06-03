@@ -44,11 +44,11 @@ function mapDetrito(d) {
 }
 
 function mapAlerta(a) {
-  const nivel = a.alertaNivel?.toUpperCase() === 'ALTO' ? 'DANGER'
-    : a.alertaNivel?.toUpperCase() === 'MEDIO' ? 'WARNING' : 'SAFE';
+  const nivel = a.alertaNivel === 'A' ? 'DANGER'
+    : a.alertaNivel === 'M' ? 'WARNING' : 'SAFE';
   return {
     id: String(a.alertaId),
-    titulo: `Alerta ${a.alertaNivel || 'registrado'}`,
+    titulo: `Alerta ${a.alertaNivel === 'A' ? 'Crítico' : a.alertaNivel === 'M' ? 'Moderado' : 'Informativo'}`,
     descricao: a.alertaDescricao || 'Sem descrição',
     nivel,
     data: a.alertaData,
