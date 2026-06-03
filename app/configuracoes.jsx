@@ -37,16 +37,15 @@ export default function Configuracoes() {
   }
 
   function handleLogout() {
-    Alert.alert('Sair', 'Deseja encerrar a sessão?', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Sair', style: 'destructive', onPress: async () => {
-          await logout();
-          router.replace('/login');
-        }
+  Alert.alert('Sair', 'Deseja encerrar a sessão?', [
+    { text: 'Cancelar', style: 'cancel' },
+    {
+      text: 'Sair', style: 'destructive', onPress: async () => {
+        await logout();
       }
-    ]);
-  }
+    }
+  ]);
+}
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>

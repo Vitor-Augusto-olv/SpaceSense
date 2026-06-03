@@ -89,7 +89,7 @@ export default function Login() {
         </View>
 
         <Text style={styles.dica}>
-          Demo: admin@spacesense.com / 123456
+          Demo: admin@satguard.com / 123456
         </Text>
       </View>
     </KeyboardAvoidingView>

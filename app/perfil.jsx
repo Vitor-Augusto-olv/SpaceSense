@@ -8,17 +8,16 @@ export default function Perfil() {
   const { usuario, logout } = useAuth();
   const router = useRouter();
 
-  function handleLogout() {
-    Alert.alert('Sair', 'Deseja encerrar a sessão?', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Sair', style: 'destructive', onPress: async () => {
-          await logout();
-          router.replace('/login');
-        }
+  async function handleLogout() {
+  Alert.alert('Sair', 'Deseja encerrar a sessão?', [
+    { text: 'Cancelar', style: 'cancel' },
+    {
+      text: 'Sair', style: 'destructive', onPress: async () => {
+        await logout();
       }
-    ]);
-  }
+    }
+  ]);
+}
 
   const stats = [
     { icone: 'planet-outline', label: 'Detritos monitorados', valor: '3', cor: colors.primary },
