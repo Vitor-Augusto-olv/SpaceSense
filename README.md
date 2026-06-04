@@ -109,7 +109,7 @@ npx expo start
 ## 🔗 Links
 
 - 📦 [Repositório GitHub](https://github.com/Vitor-Augusto-olv/SpaceSense)
-- 🎥 [Vídeo no YouTube](https://www.youtube.com/link-do-video)
+- 🎥 [Vídeo no YouTube](https://youtu.be/4KnKjJVQemc)
 - 🌐 [Space-Track.org](https://www.space-track.org)
 
 ---
